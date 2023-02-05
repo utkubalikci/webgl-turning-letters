@@ -1,0 +1,81 @@
+<html>
+<body>
+   <canvas id="glcanvas" width="512" height="512"></canvas>
+	<div>
+		Fast     <input id="slide" type="range" min="10" max="200" step="10" value="50" /> Slow
+	</div>
+	<div>
+		Small    <input id="slide2" type="range" min=".5" max="1.5" step=".1" value="1" /> Big
+	</div>
+	<div>
+		Red    0 <input id="slideR" type="range" min=".0" max="1.0" step=".1" value="1" /> 1
+	</div>
+	<div>
+		Green  0 <input id="slideG" type="range" min=".0" max="1.0" step=".1" value="1" /> 1
+	</div>
+	<div>
+		Blue   0 <input id="slideB" type="range" min=".0" max="1.0" step=".1" value="1" /> 1
+	</div>
+	<div>
+		Opaque 0 <input id="slideO" type="range" min=".0" max="1.0" step=".1" value="1" /> 1
+	</div>
+	
+	<button id = "DirectionButton"> 
+		Change Rotation Direction
+	</button>
+	<button id = "StartStopButton"> 
+		Start/Stop
+	</button>
+	<p>Please press <kbd>Left</kbd> <kbd>Right</kbd> <kbd>Up</kbd> <kbd>Down</kbd> to move.</p>
+
+</body>
+<script id="vertex-shader" type="x-shader/x-vertex">
+   attribute vec4 vPosition;
+   uniform float theta;
+   uniform float horizontal;
+   uniform float vertical;
+   void main() { 
+	gl_Position.x = cos(theta) * vPosition.x - sin(theta) * vPosition.y;
+	gl_Position.y = sin(theta) * vPosition.x + cos(theta) * vPosition.y;
+	gl_Position.x += horizontal;
+	gl_Position.y += vertical;
+	gl_Position.z = 0.0;
+	gl_Position.w = 1.0; 
+}
+
+</script>
+<script id="fragment-shader" type="x-shader/x-fragment"> 
+   precision mediump float;
+   uniform vec4 color;
+   void main() {
+      gl_FragColor = color;
+   }
+</script>
+
+<script id="fragment-shader-white" type="x-shader/x-fragment"> 
+	precision mediump float; 
+	void main(int color) {
+		gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 );
+		switch (clr.selectedIndex) {
+			case 0: //red
+				gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+				break;
+			case 1: //green
+				gl_FragColor = vec4( 0.0, 1.0, 0.0, 1.0 );
+				break;
+			case 2: //blue
+				gl_FragColor = vec4( 0.0, 0.0, 1.0, 1.0 );
+				break;
+			case 3: //white
+				gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 );
+				break;
+	   
+	}
+ </script>
+
+<script src="../common/initShaders.js"></script>
+<script src="../common/MV.js"></script>
+<script src="../common/webgl-utils.js"></script>
+<script src="19290293.js"></script>
+
+</html>
